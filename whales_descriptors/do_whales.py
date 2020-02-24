@@ -22,7 +22,7 @@ import lcm
 import mol_properties
 
 
-def main(suppl, charge_threshold=0, do_charge=True, property_name=''):
+def main(suppl, charge_threshold=0, do_charge=True, property_name='', nstep = 10):
     """
     main function for calculating WHALES descriptors, starting from the imported molecules.
     descriptors are calculated for each molecule after sanitization.
@@ -74,9 +74,9 @@ def main(suppl, charge_threshold=0, do_charge=True, property_name=''):
             coords, w, err = mol_properties.get_coordinates_and_prop(mol, property_name, do_charge)
             if err == 0:   # no errors in charge
                 # does descriptors
-                x, lab = do_lcd(coords, w, charge_threshold)
+                x, lab = do_lcd(coords, w, charge_threshold, nstep)
             else:
-                x = np.full((33,), -999.0)
+                x = np.full((33,), -999.0)  #CHANGE HERE FOR CENTILES INTEAS OF DECILES
                 errors += 1
                 print ('Molecule no. ' + str(index) + ': no computed charges.')
 
@@ -116,7 +116,7 @@ def import_mol(mol):
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-def do_lcd(coords, w, thr):
+def do_lcd(coords, w, thr, nstep):
     """
     Core function for computing 3D LCD descriptors, starting from the coordinates and the partial charges.
     :param coords: molecular 3D coordinate matrix (n_at x 3)
@@ -134,7 +134,7 @@ def do_lcd(coords, w, thr):
     # applies sign
     res = apply_sign(w, res, thr)
 
-    x_all, lab_all = extract_lcm(res)  # MDs and labels
+    x_all, lab_all = extract_lcm(res, step = nstep)  # MDs and labels  #ADD HERE start=0, end=100, step=1
 
     return x_all, lab_all
 

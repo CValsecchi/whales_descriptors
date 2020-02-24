@@ -1,0 +1,11 @@
+README.md
+setup.py
+whales.egg-info/PKG-INFO
+whales.egg-info/SOURCES.txt
+whales.egg-info/dependency_links.txt
+whales.egg-info/not-zip-safe
+whales.egg-info/top_level.txt
+whales_descriptors/__init__.py
+whales_descriptors/do_whales.py
+whales_descriptors/lcm.py
+whales_descriptors/mol_properties.py
